@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { View, Text, TextInput, Keyboard, Image } from 'react-native';
 import LoginButton from '../utils/components/LoginButton';

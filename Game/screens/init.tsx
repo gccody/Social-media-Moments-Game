@@ -1,3 +1,4 @@
+import React from 'react';
 import { Image, View } from "react-native";
 import Images from "../utils/images";
 import styles from "../utils/styles";

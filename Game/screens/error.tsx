@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text, View, Image } from "react-native";
 import SafeView from "../utils/components/SafeView";
 import Images from "../utils/images";

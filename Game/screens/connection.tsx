@@ -1,3 +1,4 @@
+import React from 'react';
 import {View, Button, Text} from 'react-native'
 import SafeView from '../utils/components/SafeView';
 import styles from '../utils/styles';
