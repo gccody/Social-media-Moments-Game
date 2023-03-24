@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import Constants from 'expo-constants';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const light = '#F3EFE0';
 const lightGrey = '#434242';
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: lightGrey,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: Number(getStatusBarHeight().toFixed(0)),
   },
   splash: {
     backgroundColor: splash,
