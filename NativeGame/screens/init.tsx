@@ -1,22 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, View } from "react-native";
 import Images from "../utils/images";
 import styles from "../utils/styles";
 import { getItem } from "../utils/storage";
 import { UID } from "../utils/types";
+import axios from 'axios';
 const Init = ({navigation}: {navigation: any}) => {
   
-  fetch('http://google.com', { method: 'GET' })
-  .catch((err) => navigation.navigate('connection'))
-
-  getItem('uid')
-  .then((uid: UID | undefined) => {
-    if (uid) navigation.navigate('profile');
-    else navigation.navigate('login');
-  })
-  .catch((err) => {
-    console.log("Error", err);
-    navigation.navigate('error')
+  useEffect(() => {
+    
+    axios.get('https://google.com')
+    .catch((err) => {navigation.navigate('connection')})
+    
+    getItem('uid')
+    .then((uid: UID | undefined) => {
+      if (uid) navigation.navigate('profile');
+      else navigation.navigate('login');
+    })
+    .catch((err) => {
+      console.log("Error", err);
+      navigation.navigate('error')
+    })
   })
 
   return (

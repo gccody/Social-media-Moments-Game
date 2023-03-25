@@ -3,11 +3,19 @@ import SQL from "./DB/sql.js";
 import CryptoJs from 'crypto-js';
 import { v4 as uuidv4 } from 'uuid';
 import { randomNumber, randomString } from "./utils/utils.js";
+import cors from "cors";
 
 const minSaltLen = 8;
 const maxSaltLen = 30;
 
+const corsOptions = {
+  origin: 'http://192.168.0.41:3000',
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
 const app = express();
+app.use(cors(corsOptions))
 const sql = new SQL();
 
 function hashPassword(password: string, salt: string): string {
@@ -17,6 +25,7 @@ function hashPassword(password: string, salt: string): string {
 app.get('/login/:email/:password', (req, res) => {
   const email = req.params.email;
   const password = req.params.password;
+  
   const user = sql.users().get(email);
   if (!user) return res.send();
   const hashed = hashPassword(password, user.salt);
@@ -26,6 +35,7 @@ app.get('/login/:email/:password', (req, res) => {
 app.post('/register/:email/:password', (req, res) => {
   const email = req.params.email;
   const password = req.params.password;
+  
   const uid = uuidv4();
   const salt = randomString(randomNumber(minSaltLen, maxSaltLen));
   const hashed = hashPassword(password, salt);

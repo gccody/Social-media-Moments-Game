@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import { useState } from 'react';
 import { View, Text, TextInput, Keyboard, Image } from 'react-native';
 import LoginButton from '../utils/components/LoginButton';
@@ -12,23 +13,36 @@ const NUMBERS = "1234567890";
 const SPECIAL = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 const minPassLen = 8;
 const maxPassLen = 100;
+const CONFIG = { withCredentials: true };
 
 const Login = ({navigation}: {navigation: any}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [disabled, setDisabled] = useState(false);
 
   const handleLogin = async () => {
+    setDisabled(true);
+    
     if (!email || !password) return;
     setError('');
-    const res = await fetch(`http://192.168.0.6:3000/login/${email}/${password}`, {method: 'GET'})
-    const uid = await res.text();
-    if (uid) {await setItem('uid', { uid: uid }); navigation.navigate('profile')} // User Exists
+    const res = await axios.get(`http://192.168.0.41:3000/login/${email}/${password}`, CONFIG)
+    const uid = res.data;
+    if (uid) {
+      await setItem('uid', { uid: uid }); 
+      setEmail('');
+      setPassword('');
+      navigation.navigate('profile');
+    } // User Exists
     else {setError(' - Something went wrong :(')} // User Does Not Exist
   }
 
   const validEmail = (email: string) => {
-    return emailRegex.test(email);
+    try {
+      return emailRegex.test(email);
+    } catch (err) {
+      return false
+    }
   }
 
   const validPass = (password: string) => {
@@ -69,19 +83,34 @@ const Login = ({navigation}: {navigation: any}) => {
   }
 
   const handleRegister = async () => {
-    if (!email || !password) return;
-    if (!validEmail(email)) setError(' - Invalid Email');
-    if (!validPass(password)) return;
+    setDisabled(true);
+    
+    
+    if (!email || !password) {setDisabled(false); return setError(' - Enter and email and password');}
+    if (!validEmail(email)) {setDisabled(false); return setError(' - Invalid Email');}
+    if (!validPass(password)) {setDisabled(false); return setError(' - The password is invalid');}
     setError('');
-    const res = await fetch(`http://192.168.0.6:3000/register/${email}/${password}`, {method: 'POST'})
-    const uid = await res.text();
+    let res;
+    try {
+      res = await axios.post(`http://192.168.0.41:3000/register/${email}/${password}`, CONFIG)
+      setDisabled(false);
+    } catch (err) {
+      console.log((err as Error).stack);
+      
+      // console.log(JSON.stringify(err, null, 4));
+      setDisabled(false);
+      return setError(' - Try again later');
+    }
+    const uid = res.data;
     if (!uid) return setError(' - Something went wrong :(')
     switch(uid) {
       case 'exists':
         setError(' - This user already exists.')
         break;
       default:
-        await setItem('uid', { uid: uid })
+        await setItem('uid', { uid: uid });
+        setEmail('');
+        setPassword('');
         navigation.navigate('register');
         break;
     }
@@ -129,10 +158,10 @@ const Login = ({navigation}: {navigation: any}) => {
           onSubmitEditing={() => {Keyboard.dismiss()}}
         />
         <View style={styles.paddingTop10}>
-          <LoginButton title='Login' onPress={handleLogin}/>
+          <LoginButton title='Login' onPress={handleLogin} disabled={disabled} />
         </View>
         <View style={styles.paddingTop10}>
-          <LoginButton title='Register' onPress={handleRegister} />
+          <LoginButton title='Register' onPress={handleRegister} disabled={disabled} />
         </View>
       </View>
       <View>
