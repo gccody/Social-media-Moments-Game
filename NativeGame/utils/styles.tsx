@@ -3,9 +3,9 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 const light = '#F3EFE0';
 const lightGrey = '#434242';
-const darkGrey = '#222222'
-const blue = '#22A39F'
-const splash = '#323638'
+const darkGrey = '#222222';
+const blue = '#22A39F';
+const splash = '#323638';
 
 const styles = StyleSheet.create({
   background: {

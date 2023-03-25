@@ -491,6 +491,7 @@
 				DEVELOPMENT_TEAM = D9363EV563;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = NativeGame/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Moments;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -501,8 +502,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.gccody.Moments;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gccody.Moments;
 				PRODUCT_NAME = NativeGame;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -519,6 +519,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D9363EV563;
 				INFOPLIST_FILE = NativeGame/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Moments;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -529,8 +530,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.gccody.Moments;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gccody.Moments;
 				PRODUCT_NAME = NativeGame;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
