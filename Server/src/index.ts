@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { randomNumber, randomString, toNormalUser } from "./utils/utils.js";
 import cors from "cors";
 import { User } from "./utils/types.js";
+import https from 'https';
 // import promptSync from 'prompt-sync';
 
 const minSaltLen = 8;
@@ -78,6 +79,8 @@ app.post('/register/:email/:password', (req, res) => {
 })
 
 const port = 3030;
-app.listen(port, () => {
+https
+.createServer(app)
+.listen(port, () => {
   console.log(`Server running on port ${port}`);
-});
+})
