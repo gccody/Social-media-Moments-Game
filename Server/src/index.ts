@@ -79,7 +79,7 @@ app.post('/register/:email/:password', (req, res) => {
   } catch(err) { res.status(400).send("exists") }
 })
 
-const DEV = false;
+const DEV = true;
 const port = 3030;
 
 if (!DEV) https.createServer(app).listen(port, () => console.log(`Global server running on port ${port}`));
