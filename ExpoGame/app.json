@@ -2,7 +2,7 @@
   "expo": {
     "name": "Moments",
     "slug": "Moments",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -19,6 +19,7 @@
       "bundleIdentifier": "com.gccody.Moments"
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#323638"

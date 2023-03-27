@@ -11,19 +11,17 @@ const Init = ({navigation}: {navigation: any}) => {
     (async function run() {
       const uid: UID | undefined = await getItem('uid');
       const url = await getItem('url');
-      if (!uid || !url) return navigation.navigate('error');
-      console.log("Making request");
+      if (!url) return navigation.navigate('error');
+      if (!uid) return navigation.navigate('login')
       let res;
       try {
         res = await axios.get(`${url}/profile/${uid.uid}`)
-      } catch(err) { 
-        if (res?.status === 404) {
-          await removeItem('uid');
-          return navigation.navigate('login')
-        }
-        return navigation.navigate('error')
-      }
+      } catch(err) { console.log("Hi", JSON.stringify(err, null, 4)); navigation.navigate('error') }
       if (!res) return navigation.navigate('error')
+      if (!res.data) {
+        await removeItem('uid');
+        return navigation.navigate('login');
+      }
       return navigation.navigate((res.data as User).username ? 'profile' : 'setup')
     })();
   }, []);

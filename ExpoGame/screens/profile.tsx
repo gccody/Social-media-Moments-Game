@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native'
+import LoginButton from '../utils/components/LoginButton';
 import SafeView from '../utils/components/SafeView';
-import { getItem } from '../utils/storage';
+import { getItem, removeItem } from '../utils/storage';
 import styles from '../utils/styles';
 import { UID, User } from '../utils/types';
 
@@ -12,9 +13,11 @@ const Profile = ({navigation}: {navigation: any}) => {
   const [url, setURL] = useState('');
   const [profile, setProfile] = useState<User | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState('');
   
   const handleClick = async () => {
-    return;
+    await removeItem('uid');
+    setData('Restart app now');
   }
 
   useEffect(() => {
@@ -49,6 +52,10 @@ const Profile = ({navigation}: {navigation: any}) => {
         <Text style={styles.text}>Email: {profile!.email}</Text>
         <Text style={styles.text}>Username: {profile!.username}</Text>
         <Text style={styles.text}>Uid: {profile!.uid}</Text>
+        <View style={styles.paddingTop10} >
+          <LoginButton title='Reset' onPress={handleClick} />
+          <Text style={styles.text}>{data}</Text>
+        </View>
       </View>
       <View />
     </SafeView>
