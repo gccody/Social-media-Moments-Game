@@ -11,7 +11,7 @@ const minSaltLen = 8;
 const maxSaltLen = 30;
 
 const corsOptions = {
-  origin: 'http://192.168.0.41:3000',
+  origin: '*',
   credentials: true,
   optionSuccessStatus: 200,
 };
