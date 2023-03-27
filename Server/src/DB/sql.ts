@@ -24,10 +24,10 @@ export default class SQL {
 
   users(uid?: string) {
     return {
-      getByEmail: (email: string): DBUser => this.db.prepare('SELECT * FROM "users" WHERE email=?').get(email),
-      getByUsernmae: (username: string): DBUser => this.db.prepare('SELECT * FROM "users" WHERE username=?').get(username),
-      getDb: (): DBUser => this.db.prepare('SELECT * FROM "users" WHERE uid=?').get(uid!),
-      getNormal: (): User => toNormalUser(<DBUser>this.db.prepare('SELECT * FROM "users" WHERE uid=?').get(uid!)),
+      getByEmail: (email: string): DBUser | undefined => this.db.prepare('SELECT * FROM "users" WHERE email=?').get(email),
+      getByUsernmae: (username: string): DBUser | undefined => this.db.prepare('SELECT * FROM "users" WHERE username=?').get(username),
+      getDb: (): DBUser | undefined => this.db.prepare('SELECT * FROM "users" WHERE uid=?').get(uid!),
+      getNormal: (): User | undefined => { const user = <DBUser | undefined>this.db.prepare('SELECT * FROM "users" WHERE uid=?').get(uid!); return user ? toNormalUser(user) : user },
       create: (email: string, hashed_password: string, salt: string) => this.db.prepare('INSERT INTO "users" VALUES(?,?,?,?,?)').run(undefined, uid, email, hashed_password, salt),
       setUsername: (username: string) => this.db.prepare('UPDATE "users" SET username=? WHERE uid=? ').run(username, uid),
       delete: () => this.db.prepare('DELETE FROM "users" WHERE uid=?').run(uid),

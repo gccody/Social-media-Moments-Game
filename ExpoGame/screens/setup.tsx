@@ -53,6 +53,8 @@ const Setup = ({ navigation }: { navigation: any }) => {
       setDisabled(false);
       return setError(' - Error setting username')
     }
+    console.log(res.status);
+    
     if (res.status == 400) {
       setDisabled(false);
       if (res.data === 'exists') {
