@@ -1,12 +1,6 @@
 import Database from 'better-sqlite3';
-
-type User = {
-  username: string | undefined,
-  uid: string,
-  email: string,
-  hashed: string,
-  salt: string
-}
+import { DBUser, User } from '../utils/types.js';
+import { toNormalUser } from '../utils/utils.js';
 
 export default class SQL {
   db = new Database('users.db')
@@ -30,7 +24,9 @@ export default class SQL {
 
   users(uid?: string) {
     return {
-      get: (email: string): User => this.db.prepare('SELECT * FROM "users" WHERE email=?').get(email),
+      getByEmail: (email: string): DBUser => this.db.prepare('SELECT * FROM "users" WHERE email=?').get(email),
+      getDb: (): DBUser => this.db.prepare('SELECT * FROM "users" WHERE uid=?').get(uid!),
+      getNormal: (): User => toNormalUser(<DBUser>this.db.prepare('SELECT * FROM "users" WHERE uid=?').get(uid!)),
       create: (email: string, hashed_password: string, salt: string) => this.db.prepare('INSERT INTO "users" VALUES(?,?,?,?,?)').run(undefined, uid, email, hashed_password, salt),
       setUsername: (username: string) => this.db.prepare('UPDATE "users" SET username=? WHERE uid=? ').run(username, uid),
       delete: () => this.db.prepare('DELETE FROM "users" WHERE uid=?').run(uid),

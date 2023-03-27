@@ -1,3 +1,5 @@
+import { DBUser, User } from "./types";
+
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 const NUMBERS = "1234567890";
 const SPECIAL = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
@@ -15,4 +17,6 @@ function randomString(len: number): string {
   return str;
 }
 
-export {randomNumber, randomString};
+function toNormalUser(u: DBUser): User { return <User>{ email: u.email, uid: u.uid, username: u.username } }
+
+export {randomNumber, randomString, toNormalUser};

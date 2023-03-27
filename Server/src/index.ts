@@ -4,6 +4,7 @@ import CryptoJs from 'crypto-js';
 import { v4 as uuidv4 } from 'uuid';
 import { randomNumber, randomString } from "./utils/utils.js";
 import cors from "cors";
+// import promptSync from 'prompt-sync';
 
 const minSaltLen = 8;
 const maxSaltLen = 30;
@@ -22,14 +23,24 @@ function hashPassword(password: string, salt: string): string {
   return CryptoJs.SHA256(password + salt).toString()
 }
 
+app.get('/profile/:userid', (req, res) => {
+  const userid = req.params.userid;
+
+  const user = sql.users(userid).getNormal()
+  if (!user) return res.status(404).send();
+  return res.status(200).send(JSON.stringify(user, null, 4))
+})
+
 app.get('/login/:email/:password', (req, res) => {
   const email = req.params.email;
   const password = req.params.password;
+  console.log(email, password);
   
-  const user = sql.users().get(email);
-  if (!user) return res.send();
+  const user = sql.users().getByEmail(email);
+  if (!user) return res.status(400).send();
   const hashed = hashPassword(password, user.salt);
-  return res.send(hashed === user.hashed ? user.uid : undefined)
+  const validPassword = hashed === user.hashed
+  return res.status(validPassword ? 200 : 400).send(validPassword ? user.uid : undefined)
 });
 
 app.post('/register/:email/:password', (req, res) => {
@@ -42,8 +53,8 @@ app.post('/register/:email/:password', (req, res) => {
   try {
     sql.users(uid).create(email, hashed, salt);
     
-    res.send(uid);
-  } catch(err) { res.send("exists") }
+    res.status(200).send(uid);
+  } catch(err) { res.status(400).send("exists") }
 })
 
 const port = 3000;
