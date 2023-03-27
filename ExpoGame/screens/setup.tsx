@@ -6,6 +6,7 @@ import SafeView from "../utils/components/SafeView";
 import Images from "../utils/images";
 import { getItem } from "../utils/storage";
 import styles from "../utils/styles";
+import { UID } from "../utils/types";
 
 const usernameMinLen = 4;
 const usernameMaxLen = 16;
@@ -18,18 +19,28 @@ const Setup = ({ navigation }: { navigation: any }) => {
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
-    getItem('uid')
-    .then((uid) => {
+    (async function run() {
+      const uid: UID | undefined = await getItem('uid');
+      const url = await getItem('url')
+      if (!uid || !url) return navigation.navigate('error')
       setUID(uid.uid);
-    })
-    .catch(() => navigation.navigate('error') )
-
-    getItem('url')
-    .then((url) => {
       setURL(url);
-    })
-    .catch(() => navigation.navigate('error'))
-  })
+    })();
+  }, [])
+
+  // useEffect(() => {
+  //   getItem('uid')
+  //   .then((uid) => {
+  //     setUID(uid.uid);
+  //   })
+  //   .catch(() => navigation.navigate('error') )
+
+  //   getItem('url')
+  //   .then((url) => {
+  //     setURL(url);
+  //   })
+  //   .catch(() => navigation.navigate('error'))
+  // })
 
   const handleClick = async () => {
     setDisabled(true);
@@ -37,7 +48,7 @@ const Setup = ({ navigation }: { navigation: any }) => {
     else if (username.length > usernameMaxLen) return setError(' - Too Long')
     let res;
     try {
-      res = await axios.post(`${url}/username/${uid}/${username}`)
+      res = await axios.patch(`${url}/username/${uid}/${username}`)
     } catch (err) {
       setDisabled(false);
       return setError(' - Error setting username')

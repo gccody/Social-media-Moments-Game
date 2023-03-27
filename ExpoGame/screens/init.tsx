@@ -8,28 +8,15 @@ import axios from 'axios';
 const Init = ({navigation}: {navigation: any}) => {
   
   useEffect(() => {
-    
-    axios.get('https://google.com')
-    .catch((err) => {navigation.navigate('connection')})
-    
-    getItem('uid')
-    .then((uid: UID | undefined) => {
-      if (uid) {
-        getItem('url')
-        .then((url) => {
-          axios.get(`${url}/profile/${uid.uid}`)
-          .then((res) => {
-            if (res) navigation.navigate((res.data as User).username ? 'profile' : 'setup')
-            else navigation.navigate('error')
-          })
-          .catch((err) => navigation.navigate('error'))
-        })
-        .catch(() => navigation.navigate('error'))
-      }
-      else setTimeout(() => navigation.navigate('login'), 500);
-    })
-    .catch((err) => setTimeout(() => navigation.navigate('error'), 500))
-  }, [])
+    (async function run() {
+      const uid: UID | undefined = await getItem('uid');
+      const url = await getItem('url');
+      if (!uid || !url) return navigation.navigate('error');
+      const res = await axios.get(`${url}/profile/${uid.uid}`)
+      if (!res) return navigation.navigate('error')
+      return navigation.navigate((res.data as User).username ? 'profile' : 'setup')
+    })();
+  }, []);
 
   return (
     <View style={styles.splash}>

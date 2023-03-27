@@ -15,9 +15,9 @@ const DEVELOPMENT = true;
 export default function App() {
 
   useEffect(() => {
-    if(DEVELOPMENT) setItem('url', 'http://192.168.0.41:3000')
+    if(DEVELOPMENT) setItem('url', 'http://192.168.0.41:3030')
     else setItem('url', 'https://app.gccody.com')
-  })
+  }, []);
 
   return (
     <NavigationContainer>

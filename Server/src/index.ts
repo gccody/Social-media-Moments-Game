@@ -24,7 +24,13 @@ function hashPassword(password: string, salt: string): string {
   return CryptoJs.SHA256(password + salt).toString()
 }
 
+app.get('/', (req, res) => {
+  console.log("Root")
+  res.send('Hello World!');
+})
+
 app.get('/profile/:userid', (req, res) => {
+  console.log("Profile")
   const userid = req.params.userid;
 
   const user = sql.users(userid).getNormal()
@@ -32,7 +38,8 @@ app.get('/profile/:userid', (req, res) => {
   return res.status(200).send(JSON.stringify(user, null, 4))
 })
 
-app.post('/username/:uid/:username', (req, res) => {
+app.patch('/username/:uid/:username', (req, res) => {
+  console.log("Update username")
   const username = req.params.username;
   const uid = req.params.uid;
 
@@ -44,6 +51,7 @@ app.post('/username/:uid/:username', (req, res) => {
 })
 
 app.get('/login/:email/:password', (req, res) => {
+  console.log("Login")
   const email = req.params.email;
   const password = req.params.password;
   
@@ -55,6 +63,7 @@ app.get('/login/:email/:password', (req, res) => {
 });
 
 app.post('/register/:email/:password', (req, res) => {
+  console.log("register")
   const email = req.params.email;
   const password = req.params.password;
   
@@ -68,7 +77,7 @@ app.post('/register/:email/:password', (req, res) => {
   } catch(err) { res.status(400).send("exists") }
 })
 
-const port = 3000;
+const port = 3030;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

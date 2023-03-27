@@ -24,12 +24,12 @@ const Login = ({navigation}: {navigation: any}) => {
   const [url, setURL] = useState('');
 
   useEffect(() => {
-    getItem('url')
-    .then((url) => {
+    (async function run() {
+      const url = await getItem('url');
+      if (!url) return navigation.navigate('error');
       setURL(url);
-    })
-    .catch(() => navigation.navigate('error'))
-  })
+    })();
+  }, [])
 
   const handleLogin = async () => {
     setDisabled(true);

@@ -16,29 +16,20 @@ const Profile = ({navigation}: {navigation: any}) => {
   const handleClick = async () => {
     return;
   }
+
   useEffect(() => {
-    getItem('url')
-    .then((url) => {
-      setURL(url)
-      getItem('uid')
-      .then((uid: UID | undefined) => {
-        if (uid) setUid(uid.uid);
-        else  navigation.navigate('error');
-        axios.get(`${url}/profile/${uid!.uid}`, { headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'
-        } })
-        .then((p) => {setProfile(p.data as User); setLoading(false);} )
-        .catch((err) => navigation.navigate('error'))
-      })
-      .catch((err) => {
-        navigation.navigate('error');
-      })
-    })
-    .catch((err) => navigation.navigate('error'))
-
-
-  }, [])
+    (async function run() {
+      const uid: UID | undefined = await getItem('uid');
+      const url = await getItem('url');
+      if (!uid || !url) return navigation.navigate('error');
+      setUid(uid.uid);
+      setURL(url);
+      const res = await axios.get(`${url}/profile/${uid.uid}`)
+      if (!res) return navigation.navigate('error');
+      setProfile(res.data as User);
+      setLoading(false);
+    })();
+  }, []);
 
   if (loading) {
     return (
