@@ -6,18 +6,16 @@ import Profile from './screens/profile';
 import Init from './screens/init';
 import Errorr from './screens/error';
 import Connection from './screens/connection';
+import Setup from './screens/setup';
 import { setItem } from './utils/storage';
 
 const Stack = createNativeStackNavigator();
-
-
-const DEVELOPMENT = true;
-
+const DEVELOPMENT = false;
 
 export default function App() {
 
   useEffect(() => {
-    if(DEVELOPMENT) setItem('url', 'http://localhost:3000')
+    if(DEVELOPMENT) setItem('url', 'http://192.168.0.41:3000')
     else setItem('url', 'https://app.gccody.com')
   })
 
@@ -29,6 +27,7 @@ export default function App() {
         <Stack.Screen name="profile" component={Profile} options={{ gestureEnabled: false }} />
         <Stack.Screen name="error" component={Errorr} options={{ gestureEnabled: false }} />
         <Stack.Screen name="connection" component={Connection} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="setup" component={Setup} options={{ gestureEnabled: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

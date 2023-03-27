@@ -25,6 +25,7 @@ export default class SQL {
   users(uid?: string) {
     return {
       getByEmail: (email: string): DBUser => this.db.prepare('SELECT * FROM "users" WHERE email=?').get(email),
+      getByUsernmae: (username: string): DBUser => this.db.prepare('SELECT * FROM "users" WHERE username=?').get(username),
       getDb: (): DBUser => this.db.prepare('SELECT * FROM "users" WHERE uid=?').get(uid!),
       getNormal: (): User => toNormalUser(<DBUser>this.db.prepare('SELECT * FROM "users" WHERE uid=?').get(uid!)),
       create: (email: string, hashed_password: string, salt: string) => this.db.prepare('INSERT INTO "users" VALUES(?,?,?,?,?)').run(undefined, uid, email, hashed_password, salt),

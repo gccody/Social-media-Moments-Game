@@ -2,8 +2,9 @@ import express from "express";
 import SQL from "./DB/sql.js";
 import CryptoJs from 'crypto-js';
 import { v4 as uuidv4 } from 'uuid';
-import { randomNumber, randomString } from "./utils/utils.js";
+import { randomNumber, randomString, toNormalUser } from "./utils/utils.js";
 import cors from "cors";
+import { User } from "./utils/types.js";
 // import promptSync from 'prompt-sync';
 
 const minSaltLen = 8;
@@ -31,16 +32,26 @@ app.get('/profile/:userid', (req, res) => {
   return res.status(200).send(JSON.stringify(user, null, 4))
 })
 
+app.post('/username/:uid/:username', (req, res) => {
+  const username = req.params.username;
+  const uid = req.params.uid;
+
+  const user = sql.users().getByUsernmae(username)
+  if (user) return res.status(400).send("exists");
+  const r = sql.users(uid).setUsername(username);
+  if (!r.changes) return res.status(400).send();
+  return res.status(200).send();
+})
+
 app.get('/login/:email/:password', (req, res) => {
   const email = req.params.email;
   const password = req.params.password;
-  console.log(email, password);
   
   const user = sql.users().getByEmail(email);
   if (!user) return res.status(400).send();
   const hashed = hashPassword(password, user.salt);
   const validPassword = hashed === user.hashed
-  return res.status(validPassword ? 200 : 400).send(validPassword ? user.uid : undefined)
+  return res.status(validPassword ? 200 : 400).send(validPassword ? toNormalUser(user) : undefined)
 });
 
 app.post('/register/:email/:password', (req, res) => {
@@ -53,7 +64,7 @@ app.post('/register/:email/:password', (req, res) => {
   try {
     sql.users(uid).create(email, hashed, salt);
     
-    res.status(200).send(uid);
+    res.status(200).send(<User>{ email: email, username: undefined, uid: uid });
   } catch(err) { res.status(400).send("exists") }
 })
 

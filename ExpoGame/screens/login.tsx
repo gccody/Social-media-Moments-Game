@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { View, Text, TextInput, Keyboard, Image } from 'react-native';
 import LoginButton from '../utils/components/LoginButton';
 import styles from '../utils/styles';
-import { setItem } from '../utils/storage';
+import { getItem, setItem } from '../utils/storage';
 import SafeView from '../utils/components/SafeView';
 import Images from '../utils/images';
+import { User } from '../utils/types';
 
 const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gm
 const NUMBERS = "1234567890";
@@ -20,19 +21,29 @@ const Login = ({navigation}: {navigation: any}) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [disabled, setDisabled] = useState(false);
+  const [url, setURL] = useState('');
+
+  useEffect(() => {
+    getItem('url')
+    .then((url) => {
+      setURL(url);
+    })
+    .catch(() => navigation.navigate('error'))
+  })
 
   const handleLogin = async () => {
     setDisabled(true);
     
     if (!email || !password) return;
     setError('');
-    const res = await axios.get(`http://192.168.0.41:3000/login/${email}/${password}`, CONFIG)
-    const uid = res.data;
-    if (uid) {
-      await setItem('uid', { uid: uid }); 
+    const res = await axios.get(`${url}/login/${email}/${password}`, CONFIG)
+    const user: User = res.data as User;
+    if (user) {
+      await setItem('uid', { uid: user.uid }); 
       setEmail('');
       setPassword('');
-      navigation.navigate('profile');
+      setDisabled(false);
+      navigation.navigate(user.username ? 'profile' : 'setup');
     } // User Exists
     else {setError(' - Something went wrong :(')} // User Does Not Exist
   }
@@ -92,12 +103,9 @@ const Login = ({navigation}: {navigation: any}) => {
     setError('');
     let res;
     try {
-      res = await axios.post(`http://192.168.0.41:3000/register/${email}/${password}`, CONFIG)
+      res = await axios.post(`${url}/register/${email}/${password}`, CONFIG)
       setDisabled(false);
     } catch (err) {
-      console.log((err as Error).stack);
-      
-      // console.log(JSON.stringify(err, null, 4));
       setDisabled(false);
       return setError(' - Try again later');
     }
@@ -108,10 +116,11 @@ const Login = ({navigation}: {navigation: any}) => {
         setError(' - This user already exists.')
         break;
       default:
-        await setItem('uid', { uid: uid });
+        await setItem('uid', { uid: (uid as User).uid });
         setEmail('');
         setPassword('');
-        navigation.navigate('register');
+        setDisabled(false);
+        navigation.navigate('setup');
         break;
     }
   }
