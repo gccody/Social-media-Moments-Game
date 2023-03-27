@@ -12,7 +12,11 @@ const Init = ({navigation}: {navigation: any}) => {
       const uid: UID | undefined = await getItem('uid');
       const url = await getItem('url');
       if (!uid || !url) return navigation.navigate('error');
-      const res = await axios.get(`${url}/profile/${uid.uid}`)
+      console.log("Making request");
+      let res;
+      try {
+        res = await axios.get(`${url}/profile/${uid.uid}`)
+      } catch(err) { console.log("Error making request", JSON.stringify(err, null, 4)) }
       if (!res) return navigation.navigate('error')
       return navigation.navigate((res.data as User).username ? 'profile' : 'setup')
     })();

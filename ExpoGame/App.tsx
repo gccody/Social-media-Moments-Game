@@ -15,7 +15,7 @@ const DEVELOPMENT = true;
 export default function App() {
 
   useEffect(() => {
-    if(DEVELOPMENT) setItem('url', 'http://192.168.0.41:3030')
+    if(DEVELOPMENT) setItem('url', 'http://127.0.0.1:3030')
     else setItem('url', 'https://app.gccody.com')
   }, []);
 

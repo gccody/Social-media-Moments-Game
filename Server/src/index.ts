@@ -13,7 +13,6 @@ const maxSaltLen = 30;
 
 const corsOptions = {
   origin: '*',
-  credentials: true,
   optionSuccessStatus: 200,
 };
 
@@ -80,9 +79,8 @@ app.post('/register/:email/:password', (req, res) => {
   } catch(err) { res.status(400).send("exists") }
 })
 
+const DEV = true;
 const port = 3030;
-https
-.createServer(app)
-.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+
+if (!DEV) https.createServer(app).listen(port, () => console.log(`Global server running on port ${port}`));
+else app.listen(port, () => console.log(`Local server running on port ${port}`))
