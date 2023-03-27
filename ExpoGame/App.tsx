@@ -10,7 +10,7 @@ import Setup from './screens/setup';
 import { setItem } from './utils/storage';
 
 const Stack = createNativeStackNavigator();
-const DEVELOPMENT = false;
+const DEVELOPMENT = true;
 
 export default function App() {
 
