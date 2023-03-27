@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Image, View } from "react-native";
 import Images from "../utils/images";
 import styles from "../utils/styles";
-import { getItem } from "../utils/storage";
+import { getItem, removeItem } from "../utils/storage";
 import { UID, User } from "../utils/types";
 import axios from 'axios';
 const Init = ({navigation}: {navigation: any}) => {
@@ -16,7 +16,13 @@ const Init = ({navigation}: {navigation: any}) => {
       let res;
       try {
         res = await axios.get(`${url}/profile/${uid.uid}`)
-      } catch(err) { console.log("Error making request", JSON.stringify(err, null, 4)) }
+      } catch(err) { 
+        if (res?.status === 404) {
+          await removeItem('uid');
+          return navigation.navigate('login')
+        }
+        return navigation.navigate('error')
+      }
       if (!res) return navigation.navigate('error')
       return navigation.navigate((res.data as User).username ? 'profile' : 'setup')
     })();

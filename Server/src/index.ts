@@ -34,8 +34,8 @@ app.get('/profile/:userid', (req, res) => {
   const userid = req.params.userid;
 
   const user = sql.users(userid).getNormal()
-  if (!user) return res.status(404).send();
-  return res.status(200).send(JSON.stringify(user, null, 4))
+  if (!user) return res.send();
+  return res.send(JSON.stringify(user, null, 4))
 })
 
 app.patch('/username/:uid/:username', (req, res) => {
@@ -44,12 +44,12 @@ app.patch('/username/:uid/:username', (req, res) => {
   const uid = req.params.uid;
 
   const user = sql.users().getByUsernmae(username)
-  if (user) return res.status(400).send("exists");
+  if (user) return res.send("exists");
   const r = sql.users(uid).setUsername(username);
   console.log(r);
   
-  if (!r.changes) return res.status(400).send();
-  return res.status(200).send();
+  if (!r.changes) return res.send();
+  return res.send();
 })
 
 app.get('/login/:email/:password', (req, res) => {
@@ -58,10 +58,10 @@ app.get('/login/:email/:password', (req, res) => {
   const password = req.params.password;
   
   const user = sql.users().getByEmail(email);
-  if (!user) return res.status(400).send();
+  if (!user) return res.send();
   const hashed = hashPassword(password, user.salt);
   const validPassword = hashed === user.hashed
-  return res.status(validPassword ? 200 : 400).send(validPassword ? toNormalUser(user) : undefined)
+  return res.send(validPassword ? toNormalUser(user) : undefined)
 });
 
 app.post('/register/:email/:password', (req, res) => {
@@ -75,8 +75,8 @@ app.post('/register/:email/:password', (req, res) => {
   try {
     sql.users(uid).create(email, hashed, salt);
     
-    res.status(200).send(<User>{ email: email, username: undefined, uid: uid });
-  } catch(err) { res.status(400).send("exists") }
+    res.send(<User>{ email: email, username: undefined, uid: uid });
+  } catch(err) { res.send("exists") }
 })
 
 const DEV = true;
