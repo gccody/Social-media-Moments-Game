@@ -47,6 +47,8 @@ app.patch('/username/:uid/:username', (req, res) => {
   const user = sql.users().getByUsernmae(username)
   if (user) return res.status(400).send("exists");
   const r = sql.users(uid).setUsername(username);
+  console.log(r);
+  
   if (!r.changes) return res.status(400).send();
   return res.status(200).send();
 })
