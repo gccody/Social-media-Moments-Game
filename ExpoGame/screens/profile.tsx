@@ -5,12 +5,12 @@ import LoginButton from '../utils/components/LoginButton';
 import SafeView from '../utils/components/SafeView';
 import { getItem, removeItem } from '../utils/storage';
 import styles from '../utils/styles';
-import { UID, User } from '../utils/types';
+import { User } from '../utils/types';
+import { getProfile } from '../utils/api';
 
 
 const Profile = ({navigation}: {navigation: any}) => {
   const [userid, setUid] = useState('');
-  const [url, setURL] = useState('');
   const [profile, setProfile] = useState<User | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState('');
@@ -22,14 +22,12 @@ const Profile = ({navigation}: {navigation: any}) => {
 
   useEffect(() => {
     (async function run() {
-      const uid: UID | undefined = await getItem('uid');
-      const url = await getItem('url');
-      if (!uid || !url) return navigation.navigate('error');
-      setUid(uid.uid);
-      setURL(url);
-      const res = await axios.get(`${url}/profile/${uid.uid}`)
-      if (!res) return navigation.navigate('error');
-      setProfile(res.data as User);
+      const uid = await getItem('uid');
+      if (!uid) return navigation.navigate('login');
+      setUid(uid);
+      const p = await getProfile(uid);
+      if (!p.data) return navigation.navigate('error');
+      setProfile(p.data);
       setLoading(false);
     })();
   }, []);

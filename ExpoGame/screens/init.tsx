@@ -3,20 +3,15 @@ import { Image, View } from "react-native";
 import Images from "../utils/images";
 import styles from "../utils/styles";
 import { getItem, removeItem } from "../utils/storage";
-import { UID, User } from "../utils/types";
-import axios from 'axios';
+import { User } from "../utils/types";
+import { getProfile } from '../utils/api';
 const Init = ({navigation}: {navigation: any}) => {
   
   useEffect(() => {
     (async function run() {
-      const uid: UID | undefined = await getItem('uid');
-      const url = await getItem('url');
-      if (!url) return navigation.navigate('error');
-      if (!uid) return navigation.navigate('login')
-      let res;
-      try {
-        res = await axios.get(`${url}/profile/${uid.uid}`)
-      } catch(err) { console.log("Hi", JSON.stringify(err, null, 4)); navigation.navigate('error') }
+      const uid = await getItem('uid');
+      if (!uid) return navigation.navigate('login');
+      const res = await getProfile(uid);
       if (!res) return navigation.navigate('error')
       if (!res.data) {
         await removeItem('uid');

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Moments",
     "slug": "Moments",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -15,11 +15,12 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "4",
       "supportsTablet": true,
       "bundleIdentifier": "com.gccody.Moments"
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#323638"
@@ -33,6 +34,10 @@
       "eas": {
         "projectId": "fa89abff-71d8-4d58-a9fb-8cb5ce86b9f8"
       }
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD"
     }
   }
 }

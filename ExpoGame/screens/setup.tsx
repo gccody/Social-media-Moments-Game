@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, Keyboard, View , Image} from 'react-native';
+import { updateUsername } from "../utils/api";
 import LoginButton from "../utils/components/LoginButton";
 import SafeView from "../utils/components/SafeView";
 import Images from "../utils/images";
-import { getItem } from "../utils/storage";
+import { getItem, setItem } from "../utils/storage";
 import styles from "../utils/styles";
-import { UID } from "../utils/types";
+import { User } from "../utils/types";
 
 const usernameMinLen = 4;
 const usernameMaxLen = 16;
@@ -14,33 +15,16 @@ const usernameMaxLen = 16;
 const Setup = ({ navigation }: { navigation: any }) => {
   const [username, setUsername] = useState('');
   const [uid, setUID] = useState('');
-  const [url, setURL] = useState('');
   const [error, setError] = useState('');
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     (async function run() {
-      const uid: UID | undefined = await getItem('uid');
-      const url = await getItem('url')
-      if (!uid || !url) return navigation.navigate('error')
-      setUID(uid.uid);
-      setURL(url);
+      const uid = await getItem('uid');
+      if (!uid) return navigation.navigate('login');
+      setUID(uid);
     })();
   }, [])
-
-  // useEffect(() => {
-  //   getItem('uid')
-  //   .then((uid) => {
-  //     setUID(uid.uid);
-  //   })
-  //   .catch(() => navigation.navigate('error') )
-
-  //   getItem('url')
-  //   .then((url) => {
-  //     setURL(url);
-  //   })
-  //   .catch(() => navigation.navigate('error'))
-  // })
 
   const handleClick = async () => {
     setDisabled(true);
@@ -48,23 +32,22 @@ const Setup = ({ navigation }: { navigation: any }) => {
     else if (username.length > usernameMaxLen) return setError(' - Too Long')
     let res;
     try {
-      res = await axios.patch(`${url}/username/${uid}/${username}`)
+      res = await updateUsername(username, uid);
     } catch (err) {
       setDisabled(false);
       return setError(' - Error setting username')
     }
-    console.log(res.status);
-    
-    if (res.status == 400) {
+    if (res.data === 'exists') {
       setDisabled(false);
-      if (res.data === 'exists') {
-        return setError(' - Username already exists')
-      }
-      else {
-        return setError(' - Error setting username')
-      }
+      return setError(' - Username already exists')
     }
-    navigation.navigate('profile')
+    else if (res.data === 'error') {
+      setDisabled(false);
+      return setError(' - Error setting username')
+    }
+    setDisabled(false);
+    setItem('profile', res.data as User);
+    navigation.navigate('profile');
   }
 
   return (

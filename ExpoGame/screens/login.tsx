@@ -8,6 +8,7 @@ import { getItem, setItem } from '../utils/storage';
 import SafeView from '../utils/components/SafeView';
 import Images from '../utils/images';
 import { User } from '../utils/types';
+import { login, register } from '../utils/api';
 
 const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gm
 const NUMBERS = "1234567890";
@@ -21,31 +22,22 @@ const Login = ({navigation}: {navigation: any}) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [disabled, setDisabled] = useState(false);
-  const [url, setURL] = useState('');
-
-  useEffect(() => {
-    (async function run() {
-      const url = await getItem('url');
-      if (!url) return navigation.navigate('error');
-      setURL(url);
-    })();
-  }, [])
 
   const handleLogin = async () => {
     setDisabled(true);
     
     if (!email || !password) return;
     setError('');
-    const res = await axios.get(`${url}/login/${email}/${password}`, CONFIG)
-    const user: User = res.data as User;
+    const res = await login(email, password);
+    const user: User | undefined = res.data as User;
     if (user) {
-      await setItem('uid', { uid: user.uid }); 
+      await setItem('uid', user.uid); 
       setEmail('');
       setPassword('');
       setDisabled(false);
       navigation.navigate(user.username ? 'profile' : 'setup');
     } // User Exists
-    else {setError(' - Something went wrong :(')} // User Does Not Exist
+    else {setDisabled(true); setError(' - Something went wrong :(')} // User Does Not Exist
   }
 
   const validEmail = (email: string) => {
@@ -96,14 +88,13 @@ const Login = ({navigation}: {navigation: any}) => {
   const handleRegister = async () => {
     setDisabled(true);
     
-    
     if (!email || !password) {setDisabled(false); return setError(' - Enter and email and password');}
     if (!validEmail(email)) {setDisabled(false); return setError(' - Invalid Email');}
     if (!validPass(password)) {setDisabled(false); return setError(' - The password is invalid');}
     setError('');
     let res;
     try {
-      res = await axios.post(`${url}/register/${email}/${password}`, CONFIG)
+      res = await register(email, password);
       setDisabled(false);
     } catch (err) {
       setDisabled(false);
@@ -114,12 +105,13 @@ const Login = ({navigation}: {navigation: any}) => {
     switch(uid) {
       case 'exists':
         setError(' - This user already exists.')
+        setDisabled(false);
         break;
       default:
-        await setItem('uid', { uid: (uid as User).uid });
+        await setItem('uid', (uid as User).uid );
+        setDisabled(false);
         setEmail('');
         setPassword('');
-        setDisabled(false);
         navigation.navigate('setup');
         break;
     }
