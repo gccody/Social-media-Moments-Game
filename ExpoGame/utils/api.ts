@@ -1,7 +1,7 @@
 import axios from "axios";
 import { User } from "./types";
 
-const DEVELOPMENT = false;
+const DEVELOPMENT = true;
 const url = DEVELOPMENT ? 'http://127.0.0.1:3030' : 'https://app.gccody.com';
 
 export const login = (email: string, password: string) => 

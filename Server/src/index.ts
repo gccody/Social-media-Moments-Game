@@ -44,6 +44,8 @@ app.patch('/username/:uid/:username', (req, res) => {
 })
 
 app.get('/login/:email/:password', (req, res) => {
+  console.log(req.headers);
+  
   const email = req.params.email;
   const password = req.params.password;
   

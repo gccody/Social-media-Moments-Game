@@ -27,9 +27,9 @@ const Setup = ({ navigation }: { navigation: any }) => {
   }, [])
 
   const handleClick = async () => {
-    setDisabled(true);
     if (username.length < usernameMinLen) return setError(' - Too Short')
     else if (username.length > usernameMaxLen) return setError(' - Too Long')
+    setDisabled(true);
     let res;
     try {
       res = await updateUsername(username, uid);

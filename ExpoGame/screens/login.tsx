@@ -24,9 +24,9 @@ const Login = ({navigation}: {navigation: any}) => {
   const [disabled, setDisabled] = useState(false);
 
   const handleLogin = async () => {
-    setDisabled(true);
-    
     if (!email || !password) return;
+    
+    setDisabled(true);
     setError('');
     const res = await login(email, password);
     const user: User | undefined = res.data as User;
@@ -35,9 +35,9 @@ const Login = ({navigation}: {navigation: any}) => {
       setEmail('');
       setPassword('');
       setDisabled(false);
-      navigation.navigate(user.username ? 'profile' : 'setup');
+      return navigation.navigate(user.username ? 'profile' : 'setup');
     } // User Exists
-    else {setDisabled(true); setError(' - Something went wrong :(')} // User Does Not Exist
+    else {setDisabled(false); setError(' - Something went wrong :(')} // User Does Not Exist
   }
 
   const validEmail = (email: string) => {
@@ -95,7 +95,6 @@ const Login = ({navigation}: {navigation: any}) => {
     let res;
     try {
       res = await register(email, password);
-      setDisabled(false);
     } catch (err) {
       setDisabled(false);
       return setError(' - Try again later');
