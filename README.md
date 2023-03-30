@@ -59,6 +59,7 @@ This game is fully developed on my free time and doesn't get any funding so plea
 ### Built With
 
 * [![ReactNative][ReactNative]][React-url]
+* [![Expo][Expo]][Expo-url]
 * [![Express][Express]][Express-url]
 
 <!-- ROADMAP -->
@@ -114,3 +115,5 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [React-url]: https://reactnative.dev/
 [Express]: https://img.shields.io/badge/ExpressJs-ffffff?style=for-the-badge&logo=express&logoColor=041014
 [Express-url]: https://expressjs.com/
+[Expo]: https://img.shields.io/badge/expo-ffffff?style=for-the-badge&logo=expo&logoColor=041014
+[Expo-url]: https://expo.dev
