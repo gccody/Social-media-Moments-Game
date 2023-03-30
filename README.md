@@ -109,7 +109,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/gccody/Socia
 [issues-shield]: https://img.shields.io/github/issues/gccody/Social-media-Moments-Game.svg?style=for-the-badge
 [issues-url]: https://github.com/gccody/Social-media-Moments-Game/issues
 [license-shield]: https://img.shields.io/github/license/gccody/Social-media-Moments-Game.svg?style=for-the-badge
-[license-url]: https://github.com/gccody/Social-media-Moments-Game/blob/master/LICENSE
+[license-url]: https://github.com/gccody/Social-media-Moments-Game/blob/main/LICENSE
 [product-screenshot]: ExpoGame/assets/splash.png
 [ReactNative]: https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactnative.dev/
