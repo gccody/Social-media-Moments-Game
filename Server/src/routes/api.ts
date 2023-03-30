@@ -24,10 +24,6 @@ function hashPassword(password: string, salt: string): string {
   return CryptoJs.SHA256(password + salt).toString()
 }
 
-api.get('/', (req, res) => {
-  res.send('Hello World!');
-})
-
 api.get('/profile/:userid', (req, res) => {
   const userid = req.params.userid;
   const user = sql.users(userid).getNormal();

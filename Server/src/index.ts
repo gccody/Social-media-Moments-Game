@@ -8,7 +8,8 @@ const corsOptions = {
 };
 
 const app = express();
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
+app.set('view engine', 'ejs');
 
 const files = fs.readdirSync(`${process.cwd()}/dist/routes`);
 
@@ -18,6 +19,14 @@ const files = fs.readdirSync(`${process.cwd()}/dist/routes`);
     app.use(`/${file.replace('.js', '')}`, route);
   }
 })();
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+})
+
+app.get('*', (req, res) => {
+  res.render('404');
+})
 
 const port = 3030;
 app.listen(port, () => console.log(`Server running on port ${port}`));
