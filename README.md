@@ -112,5 +112,5 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [product-screenshot]: ExpoGame/assets/icon.png
 [ReactNative]: https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactnative.dev/
-[Express]: https://img.shields.io/badge/ExpressJs-20232A?style=for-the-badge&logo=express&logoColor=61DAFB
+[Express]: https://img.shields.io/badge/ExpressJs-ffffff?style=for-the-badge&logo=express&logoColor=041014
 [Express-url]: https://expressjs.com/
