@@ -3,7 +3,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -19,11 +18,7 @@
   <p align="center">
     My dream game based on social media highlights including nastolgic moments!
     <br />
-    <a href="https://github.com/gccody/Social-media-Moments-Game"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/gccody/Social-media-Moments-Game">View Demo</a>
-    ·
     <a href="https://github.com/gccody/Social-media-Moments-Game/issues">Report Bug</a>
     ·
     <a href="https://github.com/gccody/Social-media-Moments-Game/issues">Request Feature</a>
@@ -65,26 +60,15 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+The project will be built using the best security i know to my knowledge. I will take highlights from multiple social media platforms old and new and it will be put into one game where you must collect all of these moments and play minigames with these moments. The game will be fully online to try my absolute best against hacking. If any vulnerabilities are found please contact me or make a pull request with the fix for the game.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+This game is fully developed on my free time and doesn't get any funding so please do not harass me if you want to see this game get developed faster i am doing my best.
 
 
 
 ### Built With
 
 * [![React Native][React Native]][React-url]]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -96,8 +80,6 @@ Use the `BLANK_README.md` to get started.
 - [ ] Home screen
 
 See the [open issues](https://github.com/gccody/Social-media-Moments-Game/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -115,16 +97,12 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -134,8 +112,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 Your Name - [@your_twitter](https://twitter.com/gccody2010) - email@example.com
 
 Project Link: [https://github.com/gccody/Social-media-Moments-Game](https://github.com/gccody/Social-media-Moments-Game)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -152,8 +128,6 @@ Use this space to list resources you find helpful and would like to give credit 
 * [GitHub Pages](https://pages.github.com)
 * [Font Awesome](https://fontawesome.com)
 * [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
