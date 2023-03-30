@@ -10,7 +10,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/gccody/Social-media-Moments-Game">
-    <img src="ExpoGame/src/assets/icon.png" alt="Logo" width="80" height="80">
+    <img src="ExpoGame/assets/iconLarge.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Moments Game</h3>
@@ -110,7 +110,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [issues-url]: https://github.com/gccody/Social-media-Moments-Game/issues
 [license-shield]: https://img.shields.io/github/license/gccody/Social-media-Moments-Game.svg?style=for-the-badge
 [license-url]: https://github.com/gccody/Social-media-Moments-Game/blob/master/LICENSE.txt
-[product-screenshot]: ExpoGame/assets/icon.png
+[product-screenshot]: ExpoGame/assets/splash.png
 [ReactNative]: https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactnative.dev/
 [Express]: https://img.shields.io/badge/ExpressJs-ffffff?style=for-the-badge&logo=express&logoColor=041014
