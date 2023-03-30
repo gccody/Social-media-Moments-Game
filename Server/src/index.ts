@@ -9,6 +9,7 @@ const corsOptions = {
 
 const app = express();
 app.use(cors(corsOptions));
+app.use(express.static(`${process.cwd()}/views`));
 app.set('view engine', 'ejs');
 
 const files = fs.readdirSync(`${process.cwd()}/dist/routes`);
