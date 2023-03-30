@@ -2,7 +2,7 @@ import Database from 'better-sqlite3';
 import { DBUser, User } from '../utils/types.js';
 import { toNormalUser } from '../utils/utils.js';
 
-export default class SQL {
+class SQL {
   db = new Database('users.db')
   constructor() { 
     this.db.pragma('journal_mode = WAL;');
@@ -35,3 +35,7 @@ export default class SQL {
     }
   }
 }
+
+const sql = new SQL();
+
+export default sql;

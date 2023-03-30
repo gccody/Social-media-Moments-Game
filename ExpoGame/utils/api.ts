@@ -2,7 +2,7 @@ import axios from "axios";
 import { User } from "./types";
 
 const DEVELOPMENT = true;
-const url = DEVELOPMENT ? 'http://127.0.0.1:3030' : 'https://app.gccody.com';
+const url = DEVELOPMENT ? 'http://127.0.0.1:3030/api' : 'https://app.gccody.com/api';
 
 export const login = (email: string, password: string) => 
   axios.get<User | undefined>(`${url}/login/${email}/${password}`);
