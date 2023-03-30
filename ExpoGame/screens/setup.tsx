@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, Keyboard, View , Image} from 'react-native';
 import { updateUsername } from "../utils/api";

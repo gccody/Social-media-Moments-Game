@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import { useState } from 'react';
 import { View, Text, TextInput, Keyboard, Image } from 'react-native';
 import LoginButton from '../utils/components/LoginButton';
 import styles from '../utils/styles';
-import { getItem, setItem } from '../utils/storage';
+import { setItem } from '../utils/storage';
 import SafeView from '../utils/components/SafeView';
 import Images from '../utils/images';
 import { User } from '../utils/types';
