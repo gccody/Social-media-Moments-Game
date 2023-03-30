@@ -1,33 +1,28 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import LoginButton from '../utils/components/LoginButton';
 import SafeView from '../utils/components/SafeView';
 import { getItem, removeItem } from '../utils/storage';
 import styles from '../utils/styles';
 import { User } from '../utils/types';
-import { getProfile } from '../utils/api';
 
 
 const Profile = ({navigation}: {navigation: any}) => {
-  const [userid, setUid] = useState('');
-  const [profile, setProfile] = useState<User | undefined>(undefined);
+  const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState('');
   
   const handleClick = async () => {
-    await removeItem('uid');
+    await removeItem('user');
     setData('Restart app now');
   }
 
   useEffect(() => {
     (async function run() {
-      const uid = await getItem('uid');
-      if (!uid) return navigation.navigate('login');
-      setUid(uid);
-      const p = await getProfile(uid);
-      if (!p.data) return navigation.navigate('error');
-      setProfile(p.data);
+      const user = await getItem('user');
+      if (!user) return navigation.navigate('login');
+      setUser(user);
       setLoading(false);
     })();
   }, []);
@@ -47,9 +42,9 @@ const Profile = ({navigation}: {navigation: any}) => {
     <SafeView style={styles.login}>
       <View />
       <View>
-        <Text style={styles.text}>Email: {profile!.email}</Text>
-        <Text style={styles.text}>Username: {profile!.username}</Text>
-        <Text style={styles.text}>Uid: {profile!.uid}</Text>
+        <Text style={styles.text}>Email: {user!.email}</Text>
+        <Text style={styles.text}>Username: {user!.username}</Text>
+        <Text style={styles.text}>Uid: {user!.uid}</Text>
         <View style={styles.paddingTop10} >
           <LoginButton title='Reset' onPress={handleClick} />
           <Text style={styles.text}>{data}</Text>

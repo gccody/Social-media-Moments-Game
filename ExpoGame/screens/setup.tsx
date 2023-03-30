@@ -14,15 +14,15 @@ const usernameMaxLen = 16;
 
 const Setup = ({ navigation }: { navigation: any }) => {
   const [username, setUsername] = useState('');
-  const [uid, setUID] = useState('');
+  const [user, setUser] = useState<User>();
   const [error, setError] = useState('');
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     (async function run() {
-      const uid = await getItem('uid');
-      if (!uid) return navigation.navigate('login');
-      setUID(uid);
+      const user = await getItem('user');
+      if (!user) return navigation.navigate('login');
+      setUser(user);
     })();
   }, [])
 
@@ -32,7 +32,7 @@ const Setup = ({ navigation }: { navigation: any }) => {
     setDisabled(true);
     let res;
     try {
-      res = await updateUsername(username, uid);
+      res = await updateUsername(username, user!.uid);
     } catch (err) {
       setDisabled(false);
       return setError(' - Error setting username')
@@ -46,7 +46,7 @@ const Setup = ({ navigation }: { navigation: any }) => {
       return setError(' - Error setting username')
     }
     setDisabled(false);
-    setItem('profile', res.data as User);
+    setItem('user', res.data as User);
     navigation.navigate('profile');
   }
 

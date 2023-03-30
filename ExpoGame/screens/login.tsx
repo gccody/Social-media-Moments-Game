@@ -31,10 +31,10 @@ const Login = ({navigation}: {navigation: any}) => {
     const res = await login(email, password);
     const user: User | undefined = res.data as User;
     if (user) {
-      await setItem('uid', user.uid); 
       setEmail('');
       setPassword('');
       setDisabled(false);
+      await setItem('user', user);
       return navigation.navigate(user.username ? 'profile' : 'setup');
     } // User Exists
     else {setDisabled(false); setError(' - Something went wrong :(')} // User Does Not Exist
@@ -99,18 +99,18 @@ const Login = ({navigation}: {navigation: any}) => {
       setDisabled(false);
       return setError(' - Try again later');
     }
-    const uid = res.data;
-    if (!uid) return setError(' - Something went wrong :(')
-    switch(uid) {
+    const user = res.data;
+    if (!user) return setError(' - Something went wrong :(')
+    switch(user) {
       case 'exists':
         setError(' - This user already exists.')
         setDisabled(false);
         break;
       default:
-        await setItem('uid', (uid as User).uid );
         setDisabled(false);
         setEmail('');
         setPassword('');
+        await setItem('user', (user as User));
         navigation.navigate('setup');
         break;
     }

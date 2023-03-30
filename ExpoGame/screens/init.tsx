@@ -9,12 +9,12 @@ const Init = ({navigation}: {navigation: any}) => {
   
   useEffect(() => {
     (async function run() {
-      const uid = await getItem('uid');
-      if (!uid) return navigation.navigate('login');
-      const res = await getProfile(uid);
+      const user: User | undefined = await getItem('user');
+      if (!user) return navigation.navigate('login');
+      const res = await getProfile(user.uid);
       if (!res) return navigation.navigate('error')
       if (!res.data) {
-        await removeItem('uid');
+        await removeItem('user');
         return navigation.navigate('login');
       }
       return navigation.navigate((res.data as User).username ? 'profile' : 'setup')

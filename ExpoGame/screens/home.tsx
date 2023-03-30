@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react"
+import { View , Text} from "react-native";
+import SafeView from "../utils/components/SafeView";
 import { getItem } from "../utils/storage";
 import { User } from "../utils/types";
 
-const Home = ({ navigation }: { navigation: any }) => {
-  const [uid, setUid] = useState('');
-  const [profile, setProfile] = useState<User>();
+const Home = ({navigation}: {navigation: any}) => {
+  const [user, setUser] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async function run() {
-      const uid = await getItem('uid');
-      const p = await getItem('profile');
-      if (!uid || !p) return navigation.navigate('login');
-      setUid(uid);
-      setProfile(p);
+      const user = await getItem('user');
+      if (!user) return navigation.navigate('login');
+      setUser(user)
       setLoading(false);
     })();
   }, []);
+
+  return (
+    <SafeView>
+      <Text>
+        Hello Bitch
+      </Text>
+    </SafeView>
+  );
 
   
 }
