@@ -82,7 +82,7 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-* [![React Native][React.js]][React-url]
+* [![React Native][React Native]][React-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -97,7 +97,7 @@ Use the `BLANK_README.md` to get started.
     - [ ] Chinese
     - [ ] Spanish
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/gccody/Social-media-Moments-Game/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -133,9 +133,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Your Name - [@your_twitter](https://twitter.com/gccody2010) - email@example.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/gccody/Social-media-Moments-Game](https://github.com/gccody/Social-media-Moments-Game)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
