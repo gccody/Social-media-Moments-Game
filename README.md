@@ -11,13 +11,13 @@
 <br />
 <div align="center">
   <a href="https://github.com/gccody/Social-media-Moments-Game">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="ExpoGame/src/assets/icon.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">Moments Game</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    My dream game based on social media highlights including nastolgic moments!
     <br />
     <a href="https://github.com/gccody/Social-media-Moments-Game"><strong>Explore the docs »</strong></a>
     <br />
@@ -82,7 +82,7 @@ Use the `BLANK_README.md` to get started.
 
 ### Built With
 
-* [![React Native][React Native]][React-url]
+* [![React Native][React Native]][React-url]]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -92,10 +92,8 @@ Use the `BLANK_README.md` to get started.
 - [x] Start the project
 - [x] Login page and logic
 - [ ] Error handling
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+- [ ] Profile screen
+- [ ] Home screen
 
 See the [open issues](https://github.com/gccody/Social-media-Moments-Game/issues) for a full list of proposed features (and known issues).
 
@@ -161,15 +159,15 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/gccody/Social-media-Moments-Game.svg?style=for-the-badge
 [contributors-url]: https://github.com/gccody/Social-media-Moments-Game/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/gccody/Social-media-Moments-Game.svg?style=for-the-badge
 [forks-url]: https://github.com/gccody/Social-media-Moments-Game/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/gccody/Social-media-Moments-Game.svg?style=for-the-badge
 [stars-url]: https://github.com/gccody/Social-media-Moments-Game/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/gccody/Social-media-Moments-Game.svg?style=for-the-badge
 [issues-url]: https://github.com/gccody/Social-media-Moments-Game/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/gccody/Social-media-Moments-Game.svg?style=for-the-badge
 [license-url]: https://github.com/gccody/Social-media-Moments-Game/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/gccody
