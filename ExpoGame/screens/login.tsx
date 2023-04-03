@@ -27,12 +27,21 @@ const Login = ({navigation}: {navigation: any}) => {
     
     setDisabled(true);
     setError('');
-    const res = await login(email, password);
-    const user: User | undefined = res.data as User;
-    if (user) {
+    let res;
+    try {
+      res = await login(email, password);
+    } catch (err) {
+      setDisabled(false);
+      return;
+    }
+    const user: User | string = res.data as User;
+    setDisabled(false);
+    if (typeof user === 'string') {
+      return setError(' - Something went wrong :(');
+    }
+    else if (user) {
       setEmail('');
       setPassword('');
-      setDisabled(false);
       await setItem('user', user);
       return navigation.navigate(user.username ? 'profile' : 'setup');
     } // User Exists

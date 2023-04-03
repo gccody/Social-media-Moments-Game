@@ -32,20 +32,17 @@ const Setup = ({ navigation }: { navigation: any }) => {
     let res;
     try {
       res = await updateUsername(username, user!.uid);
-    } catch (err) {
       setDisabled(false);
+    } catch (err) {
       return setError(' - Error setting username')
     }
     if (res.data === 'exists') {
-      setDisabled(false);
       return setError(' - Username already exists')
     }
     else if (res.data === 'error') {
-      setDisabled(false);
       return setError(' - Error setting username')
     }
-    setDisabled(false);
-    setItem('user', res.data as User);
+    await  setItem('user', res.data as User);
     navigation.navigate('profile');
   }
 

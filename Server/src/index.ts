@@ -19,15 +19,16 @@ const files = fs.readdirSync(`${process.cwd()}/dist/routes`);
     const { default: route } = await import(`${process.cwd()}/dist/routes/${file}`);
     app.use(`/${file.replace('.js', '')}`, route);
   }
+  app.get('/', (req, res) => {
+    res.send('Hello World!');
+  });
+  // app.use('*', (req, res) => {
+  //   res.render('404');
+  // });
+  app.use((req, res, next) => {
+    res.render('404');
+  });
+  const port = 3030;
+  app.listen(port, () => console.log(`Server running on port ${port}`));
 })();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-})
-
-app.get('*', (req, res) => {
-  res.render('404');
-})
-
-const port = 3030;
-app.listen(port, () => console.log(`Server running on port ${port}`));

@@ -32,6 +32,7 @@ class SQL {
       setUsername: (username: string) => this.db.prepare('UPDATE "users" SET username=? WHERE uid=? ').run(username, uid),
       delete: () => this.db.prepare('DELETE FROM "users" WHERE uid=?').run(uid),
       updatePassword: (hashed_password: string, salt: string) => this.db.prepare('UPDATE "users" SET hashed=? AND salt=? WHERE uid=?').run(hashed_password, salt, uid),
+      updateEmail: (email: string) => this.db.prepare('UPDATE "users" SET email=? WHERE uid=?').run(email, uid)
     }
   }
 }
