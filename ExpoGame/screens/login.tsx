@@ -31,7 +31,7 @@ const Login = ({navigation}: {navigation: any}) => {
     try {
       res = await login(email, password);
     } catch (err) {
-      console.log('Err', JSON.stringify(err, null, 4));
+      setError(' - Try again later :(')
       setDisabled(false);
       return;
     }
@@ -105,6 +105,7 @@ const Login = ({navigation}: {navigation: any}) => {
     try {
       res = await register(email, password);
     } catch (err) {
+      setError(' - Try again later :(')
       setDisabled(false);
       return setError(' - Try again later');
     }

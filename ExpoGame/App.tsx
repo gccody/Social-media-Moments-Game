@@ -23,7 +23,7 @@ export default function App() {
       let res;
       try {
         res = await getProfile(user.uid); // Make sure the user data matches with the server
-      } catch (err) { console.log(JSON.stringify(err, null, 4)); }
+      } catch (err) { console.log(JSON.stringify(err, null, 4)); setInitialPage('error') }
 
       if (!res) return setInitialPage('error'); // Error making request?
       if (res.data == 'error') { await removeItem('user'); return setInitialPage('login'); } // User DNE on server to reset and login
