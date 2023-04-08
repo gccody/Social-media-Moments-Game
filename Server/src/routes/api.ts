@@ -18,7 +18,7 @@ api.use((req, res, next) => {
   const ua = req.headers["user-agent"]
   console.log(ua);
   if (!ua) return res.status(404).send();
-  const whitelisted_uas = ['expo', 'moments']
+  const whitelisted_uas = ['expo', 'socialite']
   for (const wua of whitelisted_uas)
     if (ua.toLowerCase().includes(wua)) return next();
 

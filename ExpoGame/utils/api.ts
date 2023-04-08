@@ -1,7 +1,7 @@
 import axios from "axios";
 import { User } from "./types";
 
-const DEVELOPMENT = true;
+const DEVELOPMENT = false;
 const url = DEVELOPMENT ? 'http://127.0.0.1:3030/api' : 'https://app.gccody.com/api';
 
 // Login using axios to the predefined url but instead of passing the email and password in the url we pass it in the body
