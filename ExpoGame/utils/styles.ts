@@ -1,11 +1,11 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
-const light = '#F3EFE0';
-const lightGrey = '#434242';
-const darkGrey = '#222222';
-const blue = '#22A39F';
-const splash = '#323638';
+export const light = '#F3EFE0';
+export const lightGrey = '#434242';
+export const darkGrey = '#222222';
+export const blue = '#22A39F';
+export const splash = '#323638';
 
 const styles = StyleSheet.create({
   background: {

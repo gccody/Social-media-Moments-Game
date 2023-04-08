@@ -31,6 +31,7 @@ const Login = ({navigation}: {navigation: any}) => {
     try {
       res = await login(email, password);
     } catch (err) {
+      console.log('Err', JSON.stringify(err, null, 4));
       setDisabled(false);
       return;
     }
