@@ -16,6 +16,7 @@ api.use(bodyParser.json());
 
 api.use((req, res, next) => {
   const ua = req.headers["user-agent"]
+  console.log(ua);
   if (!ua) return res.status(404).send();
   const whitelisted_uas = ['expo', 'moments']
   for (const wua of whitelisted_uas)
