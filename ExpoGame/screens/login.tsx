@@ -3,18 +3,15 @@ import { useState } from 'react';
 import { View, Text, TextInput, Keyboard, Image } from 'react-native';
 import LoginButton from '../utils/components/LoginButton';
 import styles from '../utils/styles';
-import { setItem } from '../utils/storage';
 import SafeView from '../utils/components/SafeView';
 import Images from '../utils/images';
-import { User } from '../utils/types';
-import { login, register } from '../utils/api';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth/react-native';
 
 const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gm
 const NUMBERS = "1234567890";
 const SPECIAL = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 const minPassLen = 8;
 const maxPassLen = 100;
-const CONFIG = { withCredentials: true };
 
 const Login = ({navigation}: {navigation: any}) => {
   const [email, setEmail] = useState('');
@@ -23,30 +20,21 @@ const Login = ({navigation}: {navigation: any}) => {
   const [disabled, setDisabled] = useState(false);
 
   const handleLogin = async () => {
-    if (!email || !password) return;
-    
+    if (!email || !password) return setError(' - All fields required');
     setDisabled(true);
-    setError('');
-    let res;
+    const auth = getAuth();
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        return navigation.navigate(user.displayName ? 'home': 'setup');
+      }
+    });
     try {
-      res = await login(email, password);
-    } catch (err) {
-      setError(' - Try again later :(')
-      setDisabled(false);
-      return;
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch(err) {
+      setError(' - Invalid credentials');
     }
-    const user: User | string = res.data as User;
     setDisabled(false);
-    if (typeof user === 'string') {
-      return setError(' - Something went wrong :(');
-    }
-    else if (user) {
-      setEmail('');
-      setPassword('');
-      await setItem('user', user);
-      return navigation.navigate(user.username ? 'profile' : 'setup');
-    } // User Exists
-    else {setDisabled(false); setError(' - Something went wrong :(')} // User Does Not Exist
+    return unsubscribe;
   }
 
   const validEmail = (email: string) => {
@@ -97,33 +85,26 @@ const Login = ({navigation}: {navigation: any}) => {
   const handleRegister = async () => {
     setDisabled(true);
     
-    if (!email || !password) {setDisabled(false); return setError(' - Enter and email and password');}
+    if (!email || !password) {setDisabled(false); return setError(' - All fields required');}
     if (!validEmail(email)) {setDisabled(false); return setError(' - Invalid Email');}
     if (!validPass(password)) {setDisabled(false); return setError(' - The password is invalid');}
-    setError('');
-    let res;
+
+    const auth = getAuth();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate(user.displayName ? 'home' : 'setup');
+      } else {
+        navigation.navigate('login');
+      }
+    });
     try {
-      res = await register(email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
     } catch (err) {
-      setError(' - Try again later :(')
-      setDisabled(false);
-      return setError(' - Try again later');
+      return setError(` - ${(err as Error).message}`)
     }
-    const user = res.data;
-    if (!user) return setError(' - Something went wrong :(')
-    switch(user) {
-      case 'exists':
-        setError(' - This user already exists.')
-        setDisabled(false);
-        break;
-      default:
-        setDisabled(false);
-        setEmail('');
-        setPassword('');
-        await setItem('user', (user as User));
-        navigation.navigate('setup');
-        break;
-    }
+    setDisabled(false);
+
+    return unsubscribe;
   }
 
   return (

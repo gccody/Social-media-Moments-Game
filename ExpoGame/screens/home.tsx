@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react"
 import { Text, StyleSheet, View } from "react-native";
 import SafeView from "../utils/components/SafeView";
-import { getItem } from "../utils/storage";
 import { darkGrey, light } from "../utils/styles";
 import Bar from "../utils/components/Bar";
-import { User } from "../utils/types";
+import { getAuth, User } from "firebase/auth/react-native";
+
 
 const Home = ({navigation}: {navigation: any}) => {
   const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async function run() {
-      const user: User | undefined = await getItem('user');
-      if (!user) return navigation.navigate('login');
-      setUser(user)
-      setLoading(false);
-    })();
+    setLoading(true);
+    const user = getAuth().currentUser;
+    if (!user) return navigation.navigate('login');
+    setUser(user);
+    setLoading(false);
   }, []);
 
   // const pages = ['packs', 'profile', 'collection', 'shop', 'trading', 'about', 'settings', 'higher/lower', 'inventory', 'achievements'];
@@ -33,7 +32,7 @@ const Home = ({navigation}: {navigation: any}) => {
 
   return (
     <SafeView style={styles.container}>
-      <Bar username={user!.username!} />
+      <Bar username={user!.displayName!} />
       <View style={styles.container}>
         <View style={styles.mainCards}>
           <Text style={styles.text}>

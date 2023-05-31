@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Text, TextInput, Keyboard, View , Image} from 'react-native';
-import { updateUsername } from "../utils/api";
 import LoginButton from "../utils/components/LoginButton";
 import SafeView from "../utils/components/SafeView";
 import Images from "../utils/images";
-import { getItem, setItem } from "../utils/storage";
 import styles from "../utils/styles";
-import { User } from "../utils/types";
+import { getAuth, updateProfile, User } from "firebase/auth/react-native";
 
 const usernameMinLen = 4;
 const usernameMaxLen = 16;
 
 const Setup = ({ navigation }: { navigation: any }) => {
   const [username, setUsername] = useState('');
-  const [user, setUser] = useState<User>();
   const [error, setError] = useState('');
+  const [user, setUser] = useState<User>();
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     (async function run() {
-      const user = await getItem('user');
+      const auth = getAuth();
+      const user = auth.currentUser;
       if (!user) return navigation.navigate('login');
+      if (user.displayName) return navigation.navigate('home');
       setUser(user);
     })();
   }, [])
@@ -29,24 +29,15 @@ const Setup = ({ navigation }: { navigation: any }) => {
     if (username.length < usernameMinLen) return setError(' - Too Short')
     else if (username.length > usernameMaxLen) return setError(' - Too Long')
     setDisabled(true);
-    let res;
     try {
-      res = await updateUsername(username, user!.uid);
-      setDisabled(false);
+      await updateProfile(user!, { displayName: username });
     } catch (err) {
+      setError(' - Username Taken');
       setDisabled(false);
-      return setError(' - Try again later :(')
+      return;
     }
-    if (res.data === 'exists') {
-      setDisabled(false);
-      return setError(' - Username already exists')
-    }
-    else if (res.data === 'error') {
-      setDisabled(false);
-      return setError(' - Error setting username')
-    }
-    await  setItem('user', res.data as User);
-    navigation.navigate('profile');
+    setDisabled(false);
+    navigation.navigate('home');
   }
 
   return (
