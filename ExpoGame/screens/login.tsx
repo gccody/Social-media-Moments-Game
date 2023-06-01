@@ -6,6 +6,8 @@ import styles from '../utils/styles';
 import SafeView from '../utils/components/SafeView';
 import Images from '../utils/images';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth/react-native';
+import { collection, doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { DefaultFUser } from '../utils/types';
 
 const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gm
 const NUMBERS = "1234567890";
@@ -25,6 +27,24 @@ const Login = ({navigation}: {navigation: any}) => {
     const auth = getAuth();
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
+        const db = getFirestore();
+        const col = collection(db, 'users');
+        const docRef = doc(col, user.uid);
+        getDoc(docRef).then((doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            const userDataKeys = Object.keys(data);
+            const defaultKeys = Object.keys(DefaultFUser);
+            const missingKeys = defaultKeys.filter(key => !userDataKeys.includes(key));
+            console.log(missingKeys);
+            missingKeys.forEach(key => {
+              data[key] = DefaultFUser[key];
+            });
+            setDoc(docRef, data);
+          } else {
+            setDoc(docRef, DefaultFUser);
+          }
+        });
         return navigation.navigate(user.displayName ? 'home': 'setup');
       }
     });
@@ -64,21 +84,21 @@ const Login = ({navigation}: {navigation: any}) => {
     }
     if (!upper) {
       setError(' - Must contain one uppercase')
-      return false
+      return false;
     }
     else if (!lower) {
       setError(' - Must contain one lowercase')
-      return false
+      return false;
     }
     else if (!special) {
       setError(` - Must contain one special`)
-      return false
+      return false;
     }
     else if (!numbers) {
       setError(' - Must contain one number')
-      return false
+      return false;
     }
-    else return true
+    else return true;
 
   }
 
@@ -92,6 +112,24 @@ const Login = ({navigation}: {navigation: any}) => {
     const auth = getAuth();
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
+        const db = getFirestore();
+        const col = collection(db, 'users');
+        const docRef = doc(col, user.uid);
+        getDoc(docRef).then((doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            const userDataKeys = Object.keys(data);
+            const defaultKeys = Object.keys(DefaultFUser);
+            const missingKeys = defaultKeys.filter(key => !userDataKeys.includes(key));
+            console.log(missingKeys);
+            missingKeys.forEach(key => {
+              data[key] = DefaultFUser[key];
+            });
+            setDoc(docRef, data);
+          } else {
+            setDoc(docRef, DefaultFUser);
+          }
+        });
         navigation.navigate(user.displayName ? 'home' : 'setup');
       } else {
         navigation.navigate('login');

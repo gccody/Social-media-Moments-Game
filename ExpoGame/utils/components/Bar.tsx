@@ -1,22 +1,26 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { light } from "../styles";
+import { blue, darkGrey, light, lightGrey } from "../styles";
+import { User } from "firebase/auth/react-native";
+import { FUser } from "../types";
+import { StatusBar } from "expo-status-bar";
 
 interface Props {
-  username: string,
+  user: User,
+  data: FUser,
 }
 
-const Bar: React.FC<Props> = ({username}) => {
+const Bar: React.FC<Props> = ({user, data}) => {
   return (
     <View style={styles.main}>
       <Text style={styles.text}>
-        Level
+        Level: {data.xp}
       </Text>
       <Text style={styles.text}>
-        {username}
+        {user.displayName}
       </Text>
       <Text style={styles.text}>
-        Currency
+        Currency: {data.coins}
       </Text>
     </View>
   );
@@ -30,10 +34,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingLeft: 10,
     paddingRight: 10,
-    height: 20,
-    padding: 0,
-    margin: 0,
-    backgroundColor: 'red',
+    height: 30,
+    backgroundColor: lightGrey,
   },
   text: {
     color: light

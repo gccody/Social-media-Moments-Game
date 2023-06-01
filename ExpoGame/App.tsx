@@ -11,7 +11,7 @@ import { initializeApp } from "firebase/app";
 import { initializeAuth } from 'firebase/auth';
 import { getReactNativePersistence } from "firebase/auth/react-native"
 import Init from './screens/init';
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD7ov2T5_Twm8aMpEy0z0FKyxReQLRcVd8",
@@ -26,7 +26,9 @@ const firebaseConfig = {
 
 const Stack = createNativeStackNavigator();
 const app = initializeApp(firebaseConfig);
-initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
+try {
+  initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
+} catch (err) {}
 
 export default function App() {
   const [initalPage, setInitialPage] = useState('');
@@ -38,11 +40,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade', animationDuration: 100, gestureEnabled: false }} initialRouteName={initalPage}>
+      <Stack.Navigator screenOptions={{ headerShown: false, animation: 'fade', animationDuration: 100, gestureEnabled: false, autoHideHomeIndicator: true }} initialRouteName={initalPage}>
         <Stack.Screen name="init" component={Init} />
         <Stack.Screen name="login" component={Login} />
         <Stack.Screen name="profile" component={Profile} />
-        <Stack.Screen name="home" component={Home} />
+        <Stack.Screen name="home" component={Home} options={{ autoHideHomeIndicator: true }}/>
         <Stack.Screen name="error" component={Errorr} />
         <Stack.Screen name="connection" component={Connection} />
         <Stack.Screen name="setup" component={Setup} />
